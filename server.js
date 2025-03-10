@@ -2,6 +2,8 @@ const dotenv = require("dotenv"); // require package
 dotenv.config();
 const express = require("express");
 const mongoose = require("mongoose");
+const methodOverride = require("method-override");
+const morgan = require("morgan");
 const app = express();
 
 // Connect to MongoDB using the connection string in the .env file
