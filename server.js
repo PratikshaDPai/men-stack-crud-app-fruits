@@ -15,6 +15,8 @@ mongoose.connection.on("connected", () => {
 
 const Fruit = require("./models/fruit.js");
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method"));
+app.use(morgan("dev"));
 
 app.get("/", async (req, res) => {
   res.render("index.ejs");
@@ -33,6 +35,11 @@ app.get("/fruits/new", (req, res) => {
 app.get("/fruits/:fruitId", async (req, res) => {
   const foundFruit = await Fruit.findById(req.params.fruitId);
   res.render("fruits/show.ejs", { fruit: foundFruit });
+});
+
+app.delete("/fruits/:fruitId", async (req, res) => {
+  await Fruit.findByIdAndDelete(req.params.fruitId);
+  res.redirect("/fruits");
 });
 
 app.post("/fruits", async (req, res) => {
