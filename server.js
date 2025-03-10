@@ -17,6 +17,13 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", async (req, res) => {
   res.render("index.ejs");
 });
+// GET /fruits
+app.get("/fruits", async (req, res) => {
+  const allFruits = await Fruit.find();
+  console.log(allFruits); // log the fruits!
+  res.render("fruits/index.ejs", { fruits: allFruits });
+});
+
 app.get("/fruits/new", (req, res) => {
   res.render("fruits/new.ejs");
 });
@@ -27,7 +34,7 @@ app.post("/fruits", async (req, res) => {
     req.body.isReadyToEat = false;
   }
   await Fruit.create(req.body);
-  res.redirect("/fruits/new");
+  res.redirect("/fruits");
 });
 
 app.listen(8000, () => {
